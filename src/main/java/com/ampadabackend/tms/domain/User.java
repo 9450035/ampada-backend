@@ -1,6 +1,7 @@
 package com.ampadabackend.tms.domain;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -13,6 +14,7 @@ import java.util.Collection;
 @Document
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class User implements UserDetails {
 
 	@Id
@@ -44,5 +46,10 @@ public class User implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	public User(String username, String password) {
+		this.username = username;
+		this.password = password;
 	}
 }
