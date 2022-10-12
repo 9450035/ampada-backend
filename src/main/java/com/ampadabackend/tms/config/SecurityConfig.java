@@ -2,6 +2,7 @@ package com.ampadabackend.tms.config;
 
 import com.ampadabackend.tms.security.jwt.AuthEntryPointJwt;
 import com.ampadabackend.tms.security.jwt.AuthTokenFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,10 +20,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-    @Autowired
-    private AuthEntryPointJwt unauthorizedHandler;
+
+    private final AuthEntryPointJwt unauthorizedHandler;
 
 
     @Bean
