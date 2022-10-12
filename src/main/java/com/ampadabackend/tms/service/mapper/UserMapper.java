@@ -10,4 +10,11 @@ public interface UserMapper {
 
     User toEntity(UserCreateDTO userCreateDTO);
 
+    default User fromId(String id) {
+        if(id==null){
+            return null;
+        }
+        return new User(id);
+    }
+
 }
