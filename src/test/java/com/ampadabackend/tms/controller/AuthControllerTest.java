@@ -34,7 +34,7 @@ public class AuthControllerTest {
 
         Mockito.doNothing().when(userService).signUp(userCreateDTO);
 
-        Assertions.assertEquals(ResponseEntity.status(HttpStatus.CREATED).build(), authController.registerUser(userCreateDTO));
+        Assertions.assertEquals(ResponseEntity.status(HttpStatus.CREATED).build(), authController.signUp(userCreateDTO));
     }
 
     @Test
@@ -42,6 +42,6 @@ public class AuthControllerTest {
         var userCreateDTO = new UserCreateDTO(USERNAME, PASSWORD);
         Mockito.doThrow(new SystemException(HttpStatus.BAD_REQUEST, "user exist")).when(userService).signUp(userCreateDTO);
         Assertions.assertThrows(SystemException.class, () ->
-                authController.registerUser(userCreateDTO));
+                authController.signUp(userCreateDTO));
     }
 }

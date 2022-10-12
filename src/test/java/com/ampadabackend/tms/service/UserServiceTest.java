@@ -3,8 +3,10 @@ package com.ampadabackend.tms.service;
 import com.ampadabackend.tms.controller.exception.SystemException;
 import com.ampadabackend.tms.domain.User;
 import com.ampadabackend.tms.repository.UserRepository;
+import com.ampadabackend.tms.security.jwt.JwtUtils;
 import com.ampadabackend.tms.service.dto.UserCreateDTO;
 import com.ampadabackend.tms.service.impl.UserServiceImpl;
+import com.ampadabackend.tms.service.mapper.TokenDTOMapper;
 import com.ampadabackend.tms.service.mapper.UserMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
@@ -30,6 +33,15 @@ public class UserServiceTest {
     @Mock
     PasswordEncoder passwordEncoder;
 
+    @Mock
+    private AuthenticationManager authenticationManager;
+
+    @Mock
+    private JwtUtils jwtUtils;
+
+    @Mock
+    private TokenDTOMapper tokenDTOMapper;
+
     private UserService userService;
 
     private final String ID = "id";
@@ -41,7 +53,7 @@ public class UserServiceTest {
 
     @BeforeEach
     void setup() {
-        this.userService = new UserServiceImpl(userRepository, passwordEncoder, userMapper);
+        this.userService = new UserServiceImpl(userRepository, passwordEncoder, userMapper, authenticationManager, jwtUtils, tokenDTOMapper);
     }
 
     @Test
@@ -59,7 +71,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void createUserFail(){
+    void createUserFail() {
         var userCreateDTO = new UserCreateDTO(USERNAME, PASSWORD);
 
         var foundUser = new User(ID, USERNAME, ENCRYPT_PASSWORD);
