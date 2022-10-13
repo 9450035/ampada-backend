@@ -1,7 +1,7 @@
 package com.ampadabackend.tms.controller;
 
 import com.ampadabackend.tms.service.BoardService;
-import com.ampadabackend.tms.service.dto.BoardCreateDTO;
+import com.ampadabackend.tms.service.dto.BoardDTO;
 import com.ampadabackend.tms.service.dto.BoardViewModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,13 +22,13 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping
-    public ResponseEntity<BoardViewModel> create(@RequestBody BoardCreateDTO boardCreateDTO) {
+    public ResponseEntity<BoardViewModel> create(@RequestBody BoardDTO boardCreateDTO) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(boardService.create(boardCreateDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BoardViewModel> update(@PathVariable String id, @RequestBody BoardCreateDTO boardCreateDTO) {
+    public ResponseEntity<BoardViewModel> update(@PathVariable String id, @RequestBody BoardDTO boardCreateDTO) {
 
         return ResponseEntity.ok().body(boardService.update(id, boardCreateDTO));
     }

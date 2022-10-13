@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardCreateDTO {
+public class BoardDTO {
 
     private String boardName;
 }

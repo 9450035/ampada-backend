@@ -1,12 +1,14 @@
 package com.ampadabackend.tms.security.jwt;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 
 import com.ampadabackend.tms.domain.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,9 +44,8 @@ public class JwtUtils {
         return false;
     }
 
-    public String generateJwtToken(Authentication authentication) {
-
-        User userPrincipal = (User) authentication.getPrincipal();
+    public String generateJwtToken(User authentication) {
+        User userPrincipal = (User) authentication;
 
         return Jwts.builder().setId(userPrincipal.getId())
                 .setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
@@ -57,16 +58,11 @@ public class JwtUtils {
     }
 
     public String getUserId() {
-        return getCurrentUserJWT().map(token -> Jwts.parser().setSigningKey(jwtSecret)
-                .parseClaimsJws(token).getBody().getId()).orElseGet(null);
+        var usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
-    }
+        var user = (User) usernamePasswordAuthenticationToken.getPrincipal();
+        return user.getId();
 
-    public static Optional<String> getCurrentUserJWT() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        return Optional.ofNullable(securityContext.getAuthentication())
-                .filter(authentication -> authentication.getCredentials() instanceof String)
-                .map(authentication -> (String) authentication.getCredentials());
     }
 
 }

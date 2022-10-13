@@ -5,7 +5,7 @@ import com.ampadabackend.tms.domain.Board;
 import com.ampadabackend.tms.domain.User;
 import com.ampadabackend.tms.repository.BoardRepository;
 import com.ampadabackend.tms.security.jwt.JwtUtils;
-import com.ampadabackend.tms.service.dto.BoardCreateDTO;
+import com.ampadabackend.tms.service.dto.BoardDTO;
 import com.ampadabackend.tms.service.dto.BoardViewModel;
 import com.ampadabackend.tms.service.dto.UserViewModel;
 import com.ampadabackend.tms.service.impl.BoardServiceImpl;
@@ -60,7 +60,7 @@ public class BoardServiceTest {
 
     @Test
     void create() {
-        var boardCreateDTO = new BoardCreateDTO(BOARD_NAME);
+        var boardCreateDTO = new BoardDTO(BOARD_NAME);
         var boardViewModel = new BoardViewModel(ID);
         var board = new Board(null, BOARD_NAME, CREATE_ON, null, new User(CREATOR_ID));
         var savedBoard = new Board(ID, BOARD_NAME, CREATE_ON, null, new User(CREATOR_ID));
@@ -75,7 +75,7 @@ public class BoardServiceTest {
 
     @Test
     void updateSuccess() {
-        var boardCreateDTO = new BoardCreateDTO(NEW_BOARD_NAME);
+        var boardCreateDTO = new BoardDTO(NEW_BOARD_NAME);
         var boardViewModel = new BoardViewModel(ID);
         var savedBoard = new Board(ID, BOARD_NAME, CREATE_ON, null, new User(CREATOR_ID));
         var updateBoard = new Board(ID, NEW_BOARD_NAME, CREATE_ON, MODIFIED_ON, new User(CREATOR_ID));
@@ -90,7 +90,7 @@ public class BoardServiceTest {
 
     @Test
     void updateFail() {
-        var boardCreateDTO = new BoardCreateDTO(NEW_BOARD_NAME);
+        var boardCreateDTO = new BoardDTO(NEW_BOARD_NAME);
 
         Mockito.when(boardRepository.findById(ID)).thenReturn(Optional.empty());
         Assertions.assertThrows(SystemException.class, () ->

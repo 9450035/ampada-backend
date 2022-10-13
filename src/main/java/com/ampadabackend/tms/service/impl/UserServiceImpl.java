@@ -25,7 +25,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
-    private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
     private final TokenDTOMapper tokenDTOMapper;
 
@@ -43,12 +42,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public TokenDTO sigIn(String username, String password) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken
-                (username, password));
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return userRepository.findByUsername(username).filter(user -> user.isAccountNonExpired() && user.isAccountNonLocked())
+                .map(user -> {
+                    SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(username, password));
+                    ;
+                    return passwordEncoder.matches(password, user.getPassword())
+                            ? tokenDTOMapper
+                            .toDTO(jwtUtils.generateJwtToken(user)) : null;
+                })
+                .orElseThrow(() -> new SystemException(HttpStatus.UNAUTHORIZED, "login fail"));
 
-        return tokenDTOMapper.toDTO(jwtUtils.generateJwtToken(authentication));
+
     }
 
 

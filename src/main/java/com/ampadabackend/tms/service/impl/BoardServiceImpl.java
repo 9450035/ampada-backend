@@ -4,7 +4,7 @@ import com.ampadabackend.tms.controller.exception.SystemException;
 import com.ampadabackend.tms.repository.BoardRepository;
 import com.ampadabackend.tms.security.jwt.JwtUtils;
 import com.ampadabackend.tms.service.BoardService;
-import com.ampadabackend.tms.service.dto.BoardCreateDTO;
+import com.ampadabackend.tms.service.dto.BoardDTO;
 import com.ampadabackend.tms.service.dto.BoardViewModel;
 import com.ampadabackend.tms.service.mapper.BoardMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +23,13 @@ public class BoardServiceImpl implements BoardService {
     private final BoardMapper boardMapper;
 
     @Override
-    public BoardViewModel create(BoardCreateDTO boardCreateDTO) {
+    public BoardViewModel create(BoardDTO boardCreateDTO) {
 
         return boardMapper.toViewModel(boardRepository.save(boardMapper.toEntity(boardCreateDTO, jwtUtils.getUserId())).getId());
     }
 
     @Override
-    public BoardViewModel update(String id, BoardCreateDTO boardCreateDTO) {
+    public BoardViewModel update(String id, BoardDTO boardCreateDTO) {
         var board = boardRepository.findById(id);
         if (board.isEmpty())
             throw new SystemException(HttpStatus.BAD_REQUEST, "board Not Exist");

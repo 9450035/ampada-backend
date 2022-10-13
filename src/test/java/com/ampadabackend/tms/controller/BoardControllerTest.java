@@ -2,7 +2,7 @@ package com.ampadabackend.tms.controller;
 
 import com.ampadabackend.tms.controller.exception.SystemException;
 import com.ampadabackend.tms.service.BoardService;
-import com.ampadabackend.tms.service.dto.BoardCreateDTO;
+import com.ampadabackend.tms.service.dto.BoardDTO;
 import com.ampadabackend.tms.service.dto.BoardViewModel;
 import com.ampadabackend.tms.service.dto.UserViewModel;
 import org.junit.jupiter.api.Assertions;
@@ -44,7 +44,7 @@ public class BoardControllerTest {
 
     @Test
     void create() {
-        var boardCreateDTO = new BoardCreateDTO(BOARD_NAME);
+        var boardCreateDTO = new BoardDTO(BOARD_NAME);
         var boardViewModel = new BoardViewModel(ID);
         Mockito.when(boardService.create(boardCreateDTO)).thenReturn(boardViewModel);
 
@@ -54,7 +54,7 @@ public class BoardControllerTest {
 
     @Test
     void updateSuccess() {
-        var boardCreateDTO = new BoardCreateDTO(BOARD_NAME);
+        var boardCreateDTO = new BoardDTO(BOARD_NAME);
         var boardViewModel = new BoardViewModel(ID);
         Mockito.when(boardService.update(ID, boardCreateDTO)).thenReturn(boardViewModel);
         Assertions.assertEquals(ResponseEntity.ok().body(boardViewModel), boardController.update(ID, boardCreateDTO));
@@ -62,7 +62,7 @@ public class BoardControllerTest {
 
     @Test
     void updateFail() {
-        var boardCreateDTO = new BoardCreateDTO(BOARD_NAME);
+        var boardCreateDTO = new BoardDTO(BOARD_NAME);
         Mockito.when(boardService.update(ID, boardCreateDTO)).thenThrow(new SystemException(HttpStatus.BAD_REQUEST, "board Not Exist"));
         Assertions.assertThrows(SystemException.class, () ->
                 boardController.update(ID, boardCreateDTO));
