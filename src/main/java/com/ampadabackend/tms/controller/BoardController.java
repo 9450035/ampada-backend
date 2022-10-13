@@ -28,9 +28,9 @@ public class BoardController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BoardViewModel> create(@PathVariable String id, @RequestBody BoardCreateDTO boardCreateDTO) {
+    public ResponseEntity<BoardViewModel> update(@PathVariable String id, @RequestBody BoardCreateDTO boardCreateDTO) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(boardService.update(id, boardCreateDTO));
+        return ResponseEntity.ok().body(boardService.update(id, boardCreateDTO));
     }
 
     @GetMapping

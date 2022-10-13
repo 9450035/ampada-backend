@@ -10,7 +10,10 @@ import org.mapstruct.Mapping;
 public interface BoardMapper {
 
     @Mapping(target = "createOn",expression = "java(System.currentTimeMillis())")
-    Board toEntity(BoardCreateDTO boardCreateDTO,String userId);
+    Board toEntity(BoardCreateDTO boardCreateDTO,String creatorId);
+
+    @Mapping(target = "modifiedOn", expression = "java(System.currentTimeMillis())")
+    Board toEntity(BoardCreateDTO boardCreateDTO,String id,Long createOn, String creatorId);
 
     BoardViewModel toViewModel(String id);
 

@@ -15,7 +15,7 @@ public class BoardViewModel {
 
     private Long createOn;
 
-    private String modifiedOn;
+    private Long modifiedOn;
 
     private UserViewModel creator;
 

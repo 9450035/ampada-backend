@@ -31,11 +31,11 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public BoardViewModel update(String id, BoardCreateDTO boardCreateDTO) {
         var board = boardRepository.findById(id);
-        if (board.isPresent())
+        if (board.isEmpty())
             throw new SystemException(HttpStatus.BAD_REQUEST, "board Not Exist");
-        board.get().setBoardName(boardCreateDTO.getBoardName());
-        board.get().setModifiedOn(System.currentTimeMillis());
-        return boardMapper.toViewModel(boardRepository.save(board.get()).getId());
+
+        return boardMapper.toViewModel(boardRepository.save(boardMapper.toEntity(boardCreateDTO, id,
+                board.get().getCreateOn(), board.get().getCreator().getId())).getId());
     }
 
     @Override
