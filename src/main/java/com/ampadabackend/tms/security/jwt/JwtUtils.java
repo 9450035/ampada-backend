@@ -39,9 +39,8 @@ public class JwtUtils {
         return false;
     }
 
-    public String generateJwtToken(Authentication authentication) {
-
-        User userPrincipal = (User) authentication.getPrincipal();
+    public String generateJwtToken(User authentication) {
+        User userPrincipal = (User) authentication;
 
         return Jwts.builder().setId(userPrincipal.getId())
                 .setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())

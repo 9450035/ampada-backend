@@ -53,7 +53,7 @@ public class UserServiceTest {
 
     @BeforeEach
     void setup() {
-        this.userService = new UserServiceImpl(userRepository, passwordEncoder, userMapper, authenticationManager, jwtUtils, tokenDTOMapper);
+        this.userService = new UserServiceImpl(userRepository, passwordEncoder, userMapper, jwtUtils, tokenDTOMapper);
     }
 
     @Test
