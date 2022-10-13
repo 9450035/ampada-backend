@@ -4,6 +4,7 @@ import com.ampadabackend.tms.controller.exception.SystemException;
 import com.ampadabackend.tms.domain.User;
 import com.ampadabackend.tms.repository.UserRepository;
 import com.ampadabackend.tms.security.jwt.JwtUtils;
+import com.ampadabackend.tms.service.dto.TokenDTO;
 import com.ampadabackend.tms.service.dto.UserCreateDTO;
 import com.ampadabackend.tms.service.impl.UserServiceImpl;
 import com.ampadabackend.tms.service.mapper.TokenDTOMapper;
@@ -50,6 +51,7 @@ public class UserServiceTest {
 
     private final String PASSWORD = "password";
     private final String ENCRYPT_PASSWORD = "p@$$w0rd";
+    private final String JWT = "token_generate";
 
     @BeforeEach
     void setup() {
@@ -80,6 +82,34 @@ public class UserServiceTest {
 
         Assertions.assertThrows(SystemException.class, () ->
                 userService.signUp(userCreateDTO));
+    }
+
+    @Test
+    void loginSuccess() {
+        var foundUser = new User(ID, USERNAME, ENCRYPT_PASSWORD);
+
+        Mockito.when(userRepository.findByUsername(USERNAME)).thenReturn(Optional.of(foundUser));
+        Mockito.when(passwordEncoder.matches(PASSWORD, ENCRYPT_PASSWORD)).thenReturn(true);
+        Mockito.when(jwtUtils.generateJwtToken(foundUser)).thenReturn(JWT);
+        Mockito.when(tokenDTOMapper.toDTO(JWT)).thenReturn(new TokenDTO(JWT));
+        Assertions.assertEquals(new TokenDTO(JWT), userService.sigIn(USERNAME, PASSWORD));
+    }
+
+    @Test
+    void loginFail() {
+        Mockito.when(userRepository.findByUsername(USERNAME)).thenReturn(Optional.empty());
+        Assertions.assertThrows(SystemException.class, () ->
+                userService.sigIn(USERNAME, PASSWORD));
+    }
+
+    @Test
+    void loginFailSecond(){
+        var foundUser = new User(ID, USERNAME, ENCRYPT_PASSWORD);
+
+        Mockito.when(userRepository.findByUsername(USERNAME)).thenReturn(Optional.of(foundUser));
+        Mockito.when(passwordEncoder.matches(PASSWORD, ENCRYPT_PASSWORD)).thenReturn(false);
+        Assertions.assertThrows(SystemException.class, () ->
+                userService.sigIn(USERNAME, PASSWORD));
     }
 
 }
