@@ -7,30 +7,30 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Set;
-
 @Document
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Board {
+public class Card {
 
     @Id
     private String id;
 
-    private String boardName;
+    private String cardTitle;
 
-    private Long createOn;
+    private Long creatOn;
 
     private Long modifiedOn;
 
     @DBRef
-    private User creator;
+    private Board board;
 
     @DBRef
-    private Set<Card> cards;
+    private User member;
 
-    public Board(String id) {
-        this.id = id;
+    public Card(String cardTitle, User member, Board board) {
+        this.cardTitle = cardTitle;
+        this.member = member;
+        this.board = board;
     }
 }

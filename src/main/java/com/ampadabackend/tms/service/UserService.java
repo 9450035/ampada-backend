@@ -10,4 +10,6 @@ public interface UserService {
     void signUp(UserCreateDTO userCreateDTO);
 
     TokenDTO sigIn(String username, String password);
+
+    boolean exist(String userId);
 }

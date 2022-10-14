@@ -62,8 +62,8 @@ public class BoardServiceTest {
     void create() {
         var boardCreateDTO = new BoardDTO(BOARD_NAME);
         var boardViewModel = new BoardViewModel(ID);
-        var board = new Board(null, BOARD_NAME, CREATE_ON, null, new User(CREATOR_ID));
-        var savedBoard = new Board(ID, BOARD_NAME, CREATE_ON, null, new User(CREATOR_ID));
+        var board = new Board(null, BOARD_NAME, CREATE_ON, null, new User(CREATOR_ID), null);
+        var savedBoard = new Board(ID, BOARD_NAME, CREATE_ON, null, new User(CREATOR_ID), null);
 
         Mockito.when(boardMapper.toEntity(boardCreateDTO, CREATOR_ID)).thenReturn(board);
         Mockito.when(jwtUtils.getUserId()).thenReturn(CREATOR_ID);
@@ -77,8 +77,8 @@ public class BoardServiceTest {
     void updateSuccess() {
         var boardCreateDTO = new BoardDTO(NEW_BOARD_NAME);
         var boardViewModel = new BoardViewModel(ID);
-        var savedBoard = new Board(ID, BOARD_NAME, CREATE_ON, null, new User(CREATOR_ID));
-        var updateBoard = new Board(ID, NEW_BOARD_NAME, CREATE_ON, MODIFIED_ON, new User(CREATOR_ID));
+        var savedBoard = new Board(ID, BOARD_NAME, CREATE_ON, null, new User(CREATOR_ID), null);
+        var updateBoard = new Board(ID, NEW_BOARD_NAME, CREATE_ON, MODIFIED_ON, new User(CREATOR_ID), null);
 
         Mockito.when(boardRepository.findById(ID)).thenReturn(Optional.of(savedBoard));
         Mockito.when(boardMapper.toEntity(boardCreateDTO, ID, CREATE_ON, CREATOR_ID)).thenReturn(updateBoard);
@@ -99,7 +99,7 @@ public class BoardServiceTest {
 
     @Test
     void findAll() {
-        var board = new Board(ID, NEW_BOARD_NAME, CREATE_ON, MODIFIED_ON, new User(CREATOR_ID));
+        var board = new Board(ID, NEW_BOARD_NAME, CREATE_ON, MODIFIED_ON, new User(CREATOR_ID), null);
         var userViewModel = new UserViewModel(USER_ID, USERNAME);
         var boardViewModel = new BoardViewModel(ID, BOARD_NAME, CREATE_ON, MODIFIED_ON, userViewModel);
         Mockito.when(boardRepository.findAll()).thenReturn(List.of(board));

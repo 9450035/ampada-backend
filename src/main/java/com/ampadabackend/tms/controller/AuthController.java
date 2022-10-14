@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -29,7 +29,7 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping
+    @GetMapping("/login")
     public ResponseEntity<TokenDTO> signIn(@RequestParam String username, @RequestParam String password) {
         return ResponseEntity.ok(userService.sigIn(username, password));
     }

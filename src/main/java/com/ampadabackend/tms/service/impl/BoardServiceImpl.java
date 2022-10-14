@@ -40,6 +40,12 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public List<BoardViewModel> findAll() {
-        return boardRepository.findAll().stream().map(boardMapper::toViewModel).collect(Collectors.toList());
+        return boardRepository.findAll().stream()
+                .map(boardMapper::toViewModel).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean exist(String boardId) {
+        return boardRepository.existsById(boardId);
     }
 }

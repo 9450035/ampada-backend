@@ -50,10 +50,9 @@ public class SecurityConfig {
                 .sessionManagement().sessionCreationPolicy
                         (SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**")
-                .permitAll()
-                .antMatchers("/api/test/**")
-                .permitAll().anyRequest().authenticated();
+                .antMatchers("/api/signUp", "/api/login").permitAll()
+                .antMatchers( "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/webjars/swagger-ui/**").permitAll()
+                .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(),
                 UsernamePasswordAuthenticationFilter.class);

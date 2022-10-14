@@ -1,6 +1,7 @@
 package com.ampadabackend.tms.service.mapper;
 
 import com.ampadabackend.tms.domain.Board;
+import com.ampadabackend.tms.domain.User;
 import com.ampadabackend.tms.service.dto.BoardDTO;
 import com.ampadabackend.tms.service.dto.BoardViewModel;
 import org.mapstruct.Mapper;
@@ -18,4 +19,11 @@ public interface BoardMapper {
     BoardViewModel toViewModel(String id);
 
     BoardViewModel toViewModel(Board board);
+
+    default Board fromId(String id) {
+        if(id==null){
+            return null;
+        }
+        return new Board(id);
+    }
 }

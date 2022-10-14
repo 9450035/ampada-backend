@@ -14,4 +14,6 @@ public interface BoardService {
     BoardViewModel update(String id, BoardDTO boardCreateDTO);
 
     List<BoardViewModel> findAll();
+
+    boolean exist(String boardId);
 }
