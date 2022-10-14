@@ -15,6 +15,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 //import javax.validation.ConstraintViolationException;
+import javax.validation.ConstraintViolationException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Map;
@@ -38,12 +39,12 @@ public class ExceptionTranslator extends ResponseEntityExceptionHandler {
     }
 
 
-//    @ExceptionHandler(ConstraintViolationException.class)
-//    public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex,
-//                                                                     WebRequest webRequest) {
-//        return handleExceptionInternal(ex, Map.of("errors", List.of(new BodyException(ex.getMessage(),
-//                400, "Bad request"))), new HttpHeaders(), HttpStatus.BAD_REQUEST, webRequest);
-//    }
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex,
+                                                                     WebRequest webRequest) {
+        return handleExceptionInternal(ex, Map.of("errors", List.of(new BodyException(ex.getMessage(),
+                400, "Bad request"))), new HttpHeaders(), HttpStatus.BAD_REQUEST, webRequest);
+    }
 
     @Override
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,

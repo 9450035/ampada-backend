@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", uses = {UserMapper.class, BoardMapper.class})
 public interface CardMapper {
 
-    @Mapping(target = "creatOn", expression = "java(System.currentTimeMillis())")
+    @Mapping(target = "createOn", expression = "java(System.currentTimeMillis())")
     Card toEntity(CardDTO cardDTO, String board);
 
     @Mapping(target = "modifiedOn", expression = "java(System.currentTimeMillis())")

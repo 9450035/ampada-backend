@@ -39,7 +39,7 @@ public class CardServiceImpl implements CardService {
     public CardViewModel update(CardDTO cardDTO, String boardId, String cardId) {
         return cardRepository.findById(cardId).map(card -> {
             validate(boardId, cardDTO);
-            return cardMember.toViewModel(cardRepository.save(cardMember.toEntity(cardDTO, cardId, boardId, card.getCreatOn())).getId());
+            return cardMember.toViewModel(cardRepository.save(cardMember.toEntity(cardDTO, cardId, boardId, card.getCreateOn())).getId());
         }).orElseThrow(() -> new SystemException(HttpStatus.BAD_REQUEST, "card not found"));
 
     }

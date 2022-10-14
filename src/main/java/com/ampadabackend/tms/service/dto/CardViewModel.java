@@ -13,7 +13,7 @@ public class CardViewModel {
 
     private String cardTitle;
 
-    private Long creatOn;
+    private Long createOn;
 
     private Long modifiedOn;
 
