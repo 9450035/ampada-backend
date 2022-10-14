@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api")
@@ -23,7 +25,7 @@ public class AuthController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> signUp(@RequestBody UserCreateDTO userCreateDTO) {
+    public ResponseEntity<Void> signUp(@RequestBody @Valid UserCreateDTO userCreateDTO) {
 
         userService.signUp(userCreateDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();

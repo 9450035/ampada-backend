@@ -10,4 +10,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CardRepository extends MongoRepository<Card, String> {
+    boolean existsByBoardId(String boardId);
 }

@@ -16,4 +16,6 @@ public interface BoardService {
     List<BoardViewModel> findAll();
 
     boolean exist(String boardId);
+
+    void delete(String boardId);
 }

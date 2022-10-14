@@ -66,4 +66,9 @@ public class CardServiceImpl implements CardService {
                                 new ExampleMatcher.GenericPropertyMatcher().contains())), pageable)
                 .map(cardMember::toViewModel);
     }
+
+    @Override
+    public boolean exist(String boardId) {
+        return cardRepository.existsByBoardId(boardId);
+    }
 }

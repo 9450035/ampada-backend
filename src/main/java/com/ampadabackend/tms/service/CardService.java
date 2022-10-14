@@ -18,4 +18,6 @@ public interface CardService {
     void delete(String cardId);
 
     Page<CardViewModel> filter(String boardId, String title, String userId, Pageable pageable);
+
+    boolean exist(String boardId);
 }

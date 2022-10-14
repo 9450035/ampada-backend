@@ -77,4 +77,17 @@ public class BoardControllerTest {
         Assertions.assertEquals(ResponseEntity.ok().body(List.of(boardViewModel)), boardController.findAll());
     }
 
+    @Test
+    void deleteSuccess() {
+        Mockito.doNothing().when(boardService).delete(ID);
+        Assertions.assertEquals(ResponseEntity.noContent().build(), boardController.delete(ID));
+    }
+
+    @Test
+    void deleteFail() {
+        Mockito.doThrow(new SystemException(HttpStatus.BAD_REQUEST, "you cant remove board")).when(boardService).delete(ID);
+        Assertions.assertThrows(SystemException.class, () ->
+                boardController.delete(ID));
+    }
+
 }

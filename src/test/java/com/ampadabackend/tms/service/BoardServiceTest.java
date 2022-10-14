@@ -34,6 +34,9 @@ public class BoardServiceTest {
     @Mock
     private JwtUtils jwtUtils;
 
+    @Mock
+    private CardService cardService;
+
     private BoardService boardService;
 
     private final String ID = "ID";
@@ -55,7 +58,7 @@ public class BoardServiceTest {
 
     @BeforeEach
     void setup() {
-        this.boardService = new BoardServiceImpl(boardRepository, jwtUtils, boardMapper);
+        this.boardService = new BoardServiceImpl(boardRepository, jwtUtils, boardMapper, cardService);
     }
 
     @Test
@@ -106,6 +109,20 @@ public class BoardServiceTest {
         Mockito.when(boardMapper.toViewModel(board)).thenReturn(boardViewModel);
 
         Assertions.assertEquals(List.of(boardViewModel), boardService.findAll());
+    }
+
+    @Test
+    void deleteSuccess() {
+        Mockito.when(cardService.exist(ID)).thenReturn(false);
+        Mockito.doNothing().when(boardRepository).deleteById(ID);
+        boardService.delete(ID);
+    }
+
+    @Test
+    void deleteFail() {
+        Mockito.when(cardService.exist(ID)).thenReturn(true);
+        Assertions.assertThrows(SystemException.class, () ->
+                boardService.delete(ID));
     }
 
 }
